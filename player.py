@@ -1,8 +1,7 @@
-import pygame
 from game_variables import *
 
 
-class Player():
+class Player:
     def __init__(self, x, y):
         self.images_right = []
         self.images_left = []
@@ -44,9 +43,12 @@ class Player():
         if not key[pygame.K_LEFT] and not key[pygame.K_RIGHT]:
             self.counter = 0
             self.index = 0
-            self.image = self.images_right[self.index]
-        # animation
+            if self.direction == 1:
+                self.image = self.images_right[self.index]
+            if self.direction == -1:
+                self.image = self.images_left[self.index]
 
+        # animation
         if self.counter > walk_cooldown:
             self.counter = 0
             if self.index == len(self.images_right) - 1:
@@ -60,8 +62,8 @@ class Player():
 
         # gravity
         self.vel_y += 1
-        if self.vel_y > 10:
-            self.vel_y = 10
+        if self.vel_y > 15:
+            self.vel_y = 15
         dy += self.vel_y
 
         # check for collision
@@ -69,7 +71,16 @@ class Player():
         # update player coordinates
         self.rect.x += dx
         self.rect.y += dy
+
+        # check if player is off the screen
         if self.rect.bottom > screen_height:
             self.rect.bottom = screen_height
             dy = 0
+        if self.rect.left < 0:
+            self.rect.left = 0
+        if self.rect.right > screen_width:
+            self.rect.right = screen_width
+        if self.rect.top < 0:
+            self.rect.top = 0
+
         screen.blit(self.image, self.rect)
