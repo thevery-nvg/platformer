@@ -1,69 +1,15 @@
 import pygame
 from pygame.locals import *
 import random
-
+from game_variables import *
+from player import Player
 pygame.init()
-
-screen_width = 1000
-screen_height = 1000
-
-screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption("Platformer")
-# define game variables
-tile_size = 100
-
-# load images
-sun_img = pygame.image.load('img/sun.png')
-bg_img = pygame.image.load('img/sky.png')
 
 
 def draw_grid():
     for line in range(0, 20):
         pygame.draw.line(screen, (255, 255, 255), (0, line * tile_size), (screen_width, line * tile_size))
         pygame.draw.line(screen, (255, 255, 255), (line * tile_size, 0), (line * tile_size, screen_height))
-
-
-class Player():
-    def __init__(self, x, y):
-        img = pygame.image.load('img/guy1.png')
-        self.image = pygame.transform.scale(img, (50, 80))
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        self.vel_y = 0
-        self.jumped = False
-
-    def update(self):
-        dx = 0
-        dy = 0
-        key = pygame.key.get_pressed()
-        if key[pygame.K_LEFT]:
-            dx -= 5
-        if key[pygame.K_RIGHT]:
-            dx += 5
-        if key[pygame.K_SPACE]:
-            if not self.jumped:
-                self.vel_y = -15
-                self.jumped = True
-            else:
-                self.jumped = False
-
-        # gravity
-        self.vel_y += 1
-        if self.vel_y > 10:
-            self.vel_y = 10
-        dy += self.vel_y
-
-        # check for collision
-
-
-        # update player coordinates
-        self.rect.x += dx
-        self.rect.y += dy
-        if self.rect.bottom > screen_height:
-            self.rect.bottom = screen_height
-            dy = 0
-        screen.blit(self.image, self.rect)
 
 
 class World():
@@ -121,6 +67,7 @@ world = World([
 ])
 run = True
 while run:
+    clock.tick(fps)
     screen.blit(bg_img, (0, 0))
     screen.blit(sun_img, (100, 100))
     draw_grid()
