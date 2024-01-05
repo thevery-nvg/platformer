@@ -25,15 +25,13 @@ class Player:
         self.vel_y = 0
         self.jumped = False
         self.direction = 0
-        self.jump_cooldown = 10
-        self.jump_counter = 0
 
     def update(self):
         dx = 0
         dy = 0
         key = pygame.key.get_pressed()
 
-        # runnning
+        # running
         if key[pygame.K_LSHIFT]:
             vel_x = 10
             run = True
@@ -60,10 +58,7 @@ class Player:
                 self.jumped = True
 
             else:
-                self.jump_counter += 1
-                if self.jump_counter >= self.jump_cooldown:
-                    self.jumped = False
-                    self.jump_counter = 0
+                self.jumped = False
 
         # animation
         if not (key[pygame.K_LEFT] or key[pygame.K_RIGHT] or key[pygame.K_a] or key[pygame.K_d]):
