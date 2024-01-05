@@ -3,7 +3,7 @@ from pygame.locals import *
 import random
 from game_variables import *
 from player import Player
-from world import World
+from world import world
 
 pygame.init()
 
@@ -14,18 +14,7 @@ def create_world_data(size):
 
 
 player = Player(100, screen_height - 130)
-world = World([
-    [0] * 10,
-    [0] * 10,
-    [0] * 10,
-    [0] * 10,
-    [0] * 10,
-    [0] * 10,
-    [0] * 10,
-    [0] * 10,
-    [0] * 10,
-    [2] * 10,
-])
+
 run = True
 while run:
     clock.tick(fps)

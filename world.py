@@ -33,3 +33,18 @@ class World:
     def draw(self):
         for tile in self.tile_list:
             screen.blit(tile[0], tile[1])
+            pygame.draw.rect(screen, (255, 255, 255), tile[1], 2)
+
+
+world = World([
+    [0] * 10,
+    [0] * 10,
+    [0] * 10,
+    [0] * 10,
+    [0] * 10,
+    [0] * 10,
+    [1] * 5+[0]*5,
+    [0] * 10,
+    [0] * 8+[1,2],
+    [2] * 10,
+])

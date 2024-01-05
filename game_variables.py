@@ -14,3 +14,4 @@ fps = 60
 # load images
 sun_img = pygame.image.load('img/sun.png')
 bg_img = pygame.image.load('img/sky.png')
+
