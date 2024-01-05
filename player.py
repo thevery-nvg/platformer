@@ -1,3 +1,5 @@
+import pygame
+
 from game_variables import *
 from world import world
 
@@ -23,26 +25,47 @@ class Player:
         self.vel_y = 0
         self.jumped = False
         self.direction = 0
+        self.jump_cooldown = 10
+        self.jump_counter = 0
 
     def update(self):
         dx = 0
         dy = 0
-        walk_cooldown = 5
         key = pygame.key.get_pressed()
+
+        # runnning
+        if key[pygame.K_LSHIFT]:
+            vel_x = 10
+            run = True
+        else:
+            vel_x = 5
+            run = False
+        if run:
+            walk_cooldown = 2
+        else:
+            walk_cooldown = 5
+        # left and right
         if key[pygame.K_LEFT] or key[pygame.K_a]:
             self.counter += 1
-            dx -= 5
+            dx -= vel_x
             self.direction = -1
         if key[pygame.K_RIGHT] or key[pygame.K_d]:
             self.counter += 1
-            dx += 5
+            dx += vel_x
             self.direction = 1
+        # jump
         if key[pygame.K_SPACE]:
             if not self.jumped:
                 self.vel_y = -15
                 self.jumped = True
+
             else:
-                self.jumped = False
+                self.jump_counter += 1
+                if self.jump_counter >= self.jump_cooldown:
+                    self.jumped = False
+                    self.jump_counter = 0
+
+        # animation
         if not (key[pygame.K_LEFT] or key[pygame.K_RIGHT] or key[pygame.K_a] or key[pygame.K_d]):
             self.counter = 0
             self.index = 0
@@ -51,7 +74,6 @@ class Player:
             if self.direction == -1:
                 self.image = self.images_left[self.index]
 
-        # animation
         if self.counter > walk_cooldown:
             self.counter = 0
             if self.index == len(self.images_right) - 1:
